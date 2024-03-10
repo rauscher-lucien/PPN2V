@@ -55,10 +55,12 @@ def denormalize(x, mean, std):
     return x*std + mean
 
 def getDevice():
-    print("CUDA available?",torch.cuda.is_available())
-    assert(torch.cuda.is_available())
-    device = torch.device("cuda")
-    return device
+    if torch.cuda.is_available():
+        print("CUDA available. Using GPU.")
+        return torch.device("cuda")
+    else:
+        print("CUDA not available. Using CPU.")
+        return torch.device("cpu")
 
 def fastShuffle(series, num):
     length = series.shape[0]
